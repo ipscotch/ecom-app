@@ -36,7 +36,7 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
     }
 
-     @Bean
+    @Bean
     public MessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }

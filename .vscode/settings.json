@@ -2,6 +2,7 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.compile.nullAnalysis.mode": "automatic",
     "java.project.sourcePaths": [
-        "backend/productservice/src/main/java"
+        "backend/productservice/src/main/java",
+        "backend/orderservice/src/main/java"
     ]
 }

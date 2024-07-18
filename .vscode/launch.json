@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "OrderserviceApplication",
+            "request": "launch",
+            "mainClass": "com.example.orderservice.OrderserviceApplication",
+            "projectName": "orderservice"
+        },
+        {
+            "type": "java",
+            "name": "OrderserviceApplication",
+            "request": "launch",
+            "mainClass": "com.example.orderservice.OrderserviceApplication",
+            "projectName": "ecom-app_ffe0ffb2"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-UserServiceApplication<UserService>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
