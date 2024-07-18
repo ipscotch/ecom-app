@@ -1,0 +1,33 @@
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: userservice
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 123a
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  userservice:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/userservice
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 123a
+      SPRING_RABBITMQ_HOST: rabbitmq
+
+volumes:
+  postgres_data:
