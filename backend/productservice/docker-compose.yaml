@@ -5,7 +5,7 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-  paymentservice:
+  productservice:
     build: .
     ports:
       - "8080:8080"
