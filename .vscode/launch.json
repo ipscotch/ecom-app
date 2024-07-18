@@ -19,6 +19,16 @@
             "projectName": "userservice",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ProductserviceApplication<productservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.productservice.ProductserviceApplication",
+            "projectName": "productservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
