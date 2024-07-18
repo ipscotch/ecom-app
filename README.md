@@ -18,11 +18,11 @@ The ecom-app is a comprehensive, microservices-based application that allows use
 
 ## Tech Stack
 
-- **Languages**: Java, SQL, JavaScript, HTML/CSS
+- **Languages**: Java
 - **Frameworks**: Spring Boot
 - **Databases**: PostgreSQL, MongoDB, Redis
 - **Message Broker**: RabbitMQ
-- **Tools**: Maven, Docker, Kubernetes, Git, GitHub, GitLab CI, GitHub Actions, Postman
+- **Tools**: Maven, Docker, Kubernetes, Git, GitHub, Postman
 - **Platforms**: Windows, Linux
 
 ## Features
