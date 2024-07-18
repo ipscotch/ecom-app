@@ -22,6 +22,11 @@ public class UserService {
     private RabbitTemplate rabbitTemplate;
 
     public User registerUser(User user) {
+        // Check if the username already exists
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
         rabbitTemplate.convertAndSend("user-exchange", "user.created", savedUser);
@@ -33,7 +38,7 @@ public class UserService {
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
             return user;
         }
-        return null;
+        return Optional.empty();
     }
 
     public Optional<User> getUserByUsername(String username) {

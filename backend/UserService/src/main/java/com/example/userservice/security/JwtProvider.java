@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+
 @Component
-public class JwtProvider {
+public class JwtProvider implements JwtProviderInterface {
 
     private final String jwtSecret = "yourSecretKey";
 
