@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CartserviceApplication",
+            "request": "launch",
+            "mainClass": "com.example.cartservice.CartserviceApplication",
+            "projectName": "cartservice"
+        },
+        {
+            "type": "java",
+            "name": "CartserviceApplication",
+            "request": "launch",
+            "mainClass": "com.example.cartservice.CartserviceApplication",
+            "projectName": "ecom-app_ffe0ffb2"
+        },
+        {
+            "type": "java",
             "name": "OrderserviceApplication",
             "request": "launch",
             "mainClass": "com.example.orderservice.OrderserviceApplication",
