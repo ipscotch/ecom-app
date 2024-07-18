@@ -2,6 +2,6 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.compile.nullAnalysis.mode": "automatic",
     "java.project.sourcePaths": [
-        "backend/cartservice/src/main/java"
+        "backend/paymentservice/src/main/java"
     ]
 }

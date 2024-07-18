@@ -57,6 +57,16 @@
             "projectName": "productservice",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PaymentserviceApplication<paymentservice>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.paymentservice.PaymentserviceApplication",
+            "projectName": "paymentservice",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
