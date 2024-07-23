@@ -9,7 +9,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_userservice_data:/var/lib/postgresql/data
-   postgres_orderservice:
+  postgres_orderservice:
     image: postgres:latest
     environment:
       POSTGRES_DB: orderservice
