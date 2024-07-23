@@ -1,0 +1,110 @@
+services:
+  postgres_userservice:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: userservice
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 123a
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_userservice_data:/var/lib/postgresql/data
+   postgres_orderservice:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: orderservice
+      POSTGRES_USER: orderuser
+      POSTGRES_PASSWORD: password2
+    ports:
+      - "5433:5432" 
+    volumes:
+      - postgres_orderservice_data:/var/lib/postgresql/data
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  userservice:
+    image: userservice:latest
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/userservice
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: 123a
+      SPRING_RABBITMQ_HOST: rabbitmq
+  productservice:
+    image: productservice:latest
+    ports:
+      - "8082:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+  paymentservice:
+    build: .
+    ports:
+      - "8085:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+  orderservice:
+    image: order-service:latest
+    ports:
+      - "8084:8080"
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5433/orderdb
+      SPRING_DATASOURCE_USERNAME: orderuser
+      SPRING_DATASOURCE_PASSWORD: password2
+      SPRING_RABBITMQ_HOST: rabbitmq
+  cartservice:
+    image: cartservice:latest
+    ports:
+      - '8003:8000'  
+    depends_on:
+      - cache
+  authservice:
+    image: authservice:latest
+    ports:
+      - "8086:8080"
+    depends_on:
+      - userservice
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - cache:/data
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - userservice
+      - productservice
+      - cartservice
+      - orderservice
+      - paymentservice
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  cache:
+    driver: local

@@ -2,6 +2,7 @@ package com.userservice.UserService;
 
 import com.example.userservice.model.User;
 import com.example.userservice.repository.UserRepository;
+import com.example.userservice.security.JwtProvider;
 import com.example.userservice.service.UserService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -10,12 +11,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+
+
 
 public class UserServiceTest {
 
@@ -30,6 +36,15 @@ public class UserServiceTest {
     
     @Mock
     private RabbitTemplate rabbitTemplate;
+
+    @Mock
+    private UserDetailsService userDetailsService;
+
+    @Mock
+    private JwtProvider jwtProvider;
+
+
+    private MockMvc mockMvc;
 
     @BeforeEach
     public void setUp() {
@@ -68,5 +83,28 @@ public class UserServiceTest {
         assertEquals("testUser", foundUser.get().getUsername());
 
         verify(userRepository, times(1)).findByUsername("testUser");
+    }
+
+    @Test
+    public void testLogin() throws Exception {
+        User user = new User();
+        user.setUsername("testUser");
+        user.setPassword(passwordEncoder.encode("password"));
+
+        // Mock the dependencies
+        when(userRepository.findByUsername("testUser")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(anyString(), anyString())).thenReturn(true);
+        when(jwtProvider.generateToken(anyString())).thenReturn("dummy-jwt-token");
+
+        // Call the service method directly
+        String token = userService.signinUser("testUser", "password");
+
+        // Assert the results
+        assertNotNull(token);
+        assertEquals("dummy-jwt-token", token);
+
+        // Verify the interactions
+        verify(userRepository, times(1)).findByUsername("testUser");
+        verify(jwtProvider, times(1)).generateToken("testUser");
     }
 }
