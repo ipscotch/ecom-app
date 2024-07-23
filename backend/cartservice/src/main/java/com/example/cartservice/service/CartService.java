@@ -11,18 +11,18 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
-    public Cart getCartById(String id) {
-        return cartRepository.findById(id).orElse(new Cart(id));
+    public Cart getCartByUsername(String username) {
+        return cartRepository.findByUsername(username).orElse(new Cart(username));
     }
 
-    public void addItemToCart(String cartId, String itemId, int quantity) {
-        Cart cart = getCartById(cartId);
+    public void addItemToCart(String username, String itemId, int quantity) {
+        Cart cart = getCartByUsername(username);
         cart.getItems().put(itemId, cart.getItems().getOrDefault(itemId, 0) + quantity);
         cartRepository.save(cart);
     }
 
-    public void removeItemFromCart(String cartId, String itemId) {
-        Cart cart = getCartById(cartId);
+    public void removeItemFromCart(String username, String itemId) {
+        Cart cart = getCartByUsername(username);
         cart.getItems().remove(itemId);
         cartRepository.save(cart);
     }

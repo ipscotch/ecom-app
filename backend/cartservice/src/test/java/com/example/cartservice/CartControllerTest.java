@@ -35,8 +35,8 @@ public class CartControllerTest {
     }
 
     @Test
-    public void testGetCartById() throws Exception {
-        Mockito.when(cartService.getCartById("1")).thenReturn(cart);
+    public void testGetCartByUsername() throws Exception {
+        Mockito.when(cartService.getCartByUsername("1")).thenReturn(cart);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/carts/1")
                 .accept(MediaType.APPLICATION_JSON))
