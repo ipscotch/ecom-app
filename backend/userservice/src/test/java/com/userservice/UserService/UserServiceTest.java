@@ -44,8 +44,6 @@ public class UserServiceTest {
     private JwtProvider jwtProvider;
 
 
-    private MockMvc mockMvc;
-
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);

@@ -37,12 +37,12 @@ public class UserController {
         }
     }
 
-    @GetMapping("/validate")
-    public boolean validateToken(@RequestHeader("Authorization") String token) {
+    @GetMapping("/getUsername")
+    public String validateToken(@RequestHeader("Authorization") String token) {
         try {
-            return userService.validateToken(token);
+            return userService.extractUsername(token);
         } catch (Exception e) {
-            return false;
+            return null;
         }
     }
     

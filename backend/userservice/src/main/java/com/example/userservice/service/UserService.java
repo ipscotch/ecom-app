@@ -73,8 +73,15 @@ public class UserService {
         
     }
 
-    public boolean validateToken(String token) {
+    public String extractUsername(String token) {
         String jwt = token.substring(7); // Remove "Bearer " prefix
-        return jwtProvider.validateToken(jwt);
+       if(jwtProvider.validateToken(jwt))
+       {
+           return jwtProvider.getUsernameFromToken(jwt);
+       }
+       else
+       {
+           return null;
+       }
     }
 }
