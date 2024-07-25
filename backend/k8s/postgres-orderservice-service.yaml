@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-orderservice
+spec:
+  selector:
+    app: postgres-orderservice
+  ports:
+    - protocol: TCP
+      port: 5433
+      targetPort: 5432

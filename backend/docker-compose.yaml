@@ -67,23 +67,18 @@ services:
   cartservice:
     image: cartservice:latest
     ports:
-      - '8003:8000'  
+      - '8083:8000'  
     depends_on:
-      - cache
-  authservice:
-    image: authservice:latest
-    ports:
-      - "8086:8080"
-    depends_on:
-      - userservice
-  cache:
+      - cartdb
+
+  cartdb:
     image: redis:6.2-alpine
     restart: always
     ports:
       - '6379:6379'
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
-      - cache:/data
+      - cartdb:/data
   nginx:
     image: nginx:latest
     ports:
@@ -106,5 +101,5 @@ networks:
 volumes:
   postgres_data:
     driver: local
-  cache:
+  cartdb:
     driver: local
