@@ -22,11 +22,15 @@ public class OrderService {
         order.setOrderDate(LocalDateTime.now());
         Order createdOrder = orderRepository.save(order);
         rabbitTemplate.convertAndSend("orderQueue", createdOrder);
-        return orderRepository.save(order);
+        return createdOrder;
     }
 
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
+    }
+
+    public List<Order> getOrdersByUsername(String username) {
+        return orderRepository.findByUsername(username);
     }
 
     public Order getOrderById(Long id) {

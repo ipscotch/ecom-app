@@ -1,23 +1,21 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.model.LoginRequest;
+import com.example.userservice.model.LoginResponse;
 import com.example.userservice.model.User;
 import com.example.userservice.security.JwtProvider;
 import com.example.userservice.service.UserService;
-
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
-@RequestMapping("/users")
+@RequestMapping()
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private JwtProvider jwtProvider;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
@@ -30,13 +28,22 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user) {
-        Optional<User> optionalUser = userService.loginUser(user.getUsername(), user.getPassword());
-        if (optionalUser.isPresent()) {
-            User loginUser = optionalUser.get();
-            String token = jwtProvider.generateToken(loginUser.getUsername());
-            return ResponseEntity.ok(token);
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        try {
+            String token = userService.signinUser(loginRequest.getUsername(), loginRequest.getPassword());
+            return ResponseEntity.ok(new LoginResponse(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Internal server error");
         }
-        return ResponseEntity.status(401).body("Invalid credentials");
     }
+
+    @GetMapping("/getUsername")
+    public String validateToken(@RequestHeader("Authorization") String token) {
+        try {
+            return userService.extractUsername(token);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
 }

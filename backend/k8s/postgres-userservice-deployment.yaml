@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-userservice-deployment
+  labels:
+    app: postgres-userservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-userservice
+  template:
+    metadata:
+      labels:
+        app: postgres-userservice
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: POSTGRES_DB_USERSERVICE
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: POSTGRES_USER_USERSERVICE
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: POSTGRES_PASSWORD_USERSERVICE
+        volumeMounts:
+        - name: postgres-userservice-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-userservice-data
+        persistentVolumeClaim:
+          claimName: postgres-userservice-pvc

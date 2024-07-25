@@ -9,21 +9,15 @@ import org.springframework.data.redis.core.RedisHash;
 @RedisHash("Cart")
 public class Cart implements Serializable {
     private String id;
-    private Map<String, Integer> items = new HashMap<>();
+    private String username;
+    private Map<String, Integer> items;
+
+    public Cart(String username) {
+        this.username = username;
+        this.items = new HashMap<>();
+    }
 
     public Cart() {
-    }
-
-    public Cart(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public Map<String, Integer> getItems() {
@@ -32,5 +26,21 @@ public class Cart implements Serializable {
 
     public void setItems(Map<String, Integer> items) {
         this.items = items;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

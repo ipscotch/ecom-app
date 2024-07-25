@@ -15,8 +15,8 @@ public class Order {
     private Integer quantity;
     private Double price;
     private LocalDateTime orderDate;
+    private String username;
 
-    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -56,5 +56,13 @@ public class Order {
 
     public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
